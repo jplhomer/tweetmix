@@ -59,7 +59,7 @@ export default function Index() {
 
   return (
     <>
-      <h1>This is Tweetmix.</h1>
+      <h1>This is Tweetmix home.</h1>
     </>
   );
 }

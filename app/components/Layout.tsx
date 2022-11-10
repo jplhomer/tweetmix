@@ -1,3 +1,4 @@
+import { Link } from "@remix-run/react";
 import { Gear, Hashtag, Tweetmix } from "./Icons";
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -5,16 +6,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
     <div className="flex">
       <header className="flex-grow">
         <div className="w-[275px]">
-          <a
-            className="p-3 ml-2 rounded-full inline-flex hover:bg-gray-200"
-            href="#"
+          <Link
+            className="p-3 ml-2 rounded-full inline-flex hover:bg-blue-50"
+            to="/"
+            prefetch="intent"
           >
             <Tweetmix className="w-8 h-8" />
-          </a>
-          <NavItem href="#" icon={<Hashtag className="w-8 h-8" />}>
+          </Link>
+          <NavItem to="/explore" icon={<Hashtag className="w-8 h-8" />}>
             Explore
           </NavItem>
-          <NavItem href="#" icon={<Gear className="w-8 h-8" />}>
+          <NavItem to="/settings" icon={<Gear className="w-8 h-8" />}>
             Settings
           </NavItem>
         </div>
@@ -27,20 +29,21 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 function NavItem({
   icon,
-  href,
+  to,
   children,
 }: {
   icon: React.ReactNode;
-  href: string;
+  to: string;
   children: React.ReactNode;
 }) {
   return (
-    <a
-      href={href}
+    <Link
+      to={to}
       className="flex space-x-8 text-xl py-3 px-5 rounded-full hover:bg-gray-200"
+      prefetch="intent"
     >
       {icon}
       <span>{children}</span>
-    </a>
+    </Link>
   );
 }
