@@ -6,7 +6,8 @@
     "dev:remix": "remix watch",
     "dev:wrangler": "cross-env NODE_ENV=development wrangler pages dev ./public --d1=TWEETS_DB --local --persist",
     "dev": "remix build && run-p \"dev:*\"",
-    "start": "cross-env NODE_ENV=production npm run dev:wrangler"
+    "start": "cross-env NODE_ENV=production npm run dev:wrangler",
+    "db:migrate:fresh": "touch ./.wrangler/state/d1/TWEETS_DB.sqlite3 && sqlite3 ./.wrangler/state/d1/TWEETS_DB.sqlite3 < ./db/migrations.sql"
   },
   "dependencies": {
     "@remix-run/cloudflare": "^1.7.5",
