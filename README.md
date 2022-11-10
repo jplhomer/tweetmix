@@ -1,22 +1,21 @@
-# Welcome to Remix!
+# Tweetmix: A Twitter clone built with Remix
 
 - [Remix Docs](https://remix.run/docs)
 
 ## Development
 
-You will be utilizing Wrangler for local development to emulate the Cloudflare runtime. This is already wired up in your package.json as the `dev` script:
+We'll be using a local `sqlite` database to power our [Cloudflare D1](https://developers.cloudflare.com/d1/) database. To create this local database, run:
 
 ```sh
-# start the remix dev server and wrangler
+npm run db:migrate:fresh
+```
+
+You can also re-run this task any time you want to wipe your database and start over.
+
+Start the local development server with:
+
+```sh
 npm run dev
 ```
 
 Open up [http://127.0.0.1:8788](http://127.0.0.1:8788) and you should be ready to go!
-
-## Deployment
-
-Cloudflare Pages are currently only deployable through their Git provider integrations.
-
-If you don't already have an account, then [create a Cloudflare account here](https://dash.cloudflare.com/sign-up/pages) and after verifying your email address with Cloudflare, go to your dashboard and follow the [Cloudflare Pages deployment guide](https://developers.cloudflare.com/pages/framework-guides/deploy-anything).
-
-Configure the "Build command" should be set to `npm run build`, and the "Build output directory" should be set to `public`.
