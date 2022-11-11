@@ -1,6 +1,7 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/cloudflare";
 import invariant from "tiny-invariant";
 import type { TweetmixContext } from "types";
+import { unsafeHash } from "~/utils";
 import { db } from "./db.server";
 
 export interface RegisterForm {
@@ -52,18 +53,6 @@ export async function login(
   };
 }
 
-/**
- * Hash some text using Sha-256.
- * NOTE: This is bad; don't do this; use bcrypt instead.
- */
-async function unsafeHash(input: string) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(input);
-  const hash = await crypto.subtle.digest("SHA-256", data);
-  const hashArray = Array.from(new Uint8Array(hash));
-  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
-}
-
 const storage = createCookieSessionStorage({
   cookie: {
     name: "tweetmix_session",
@@ -79,9 +68,33 @@ const storage = createCookieSessionStorage({
   },
 });
 
+function getUserSession(request: Request) {
+  return storage.getSession(request.headers.get("Cookie"));
+}
+
+export async function getUserId(request: Request) {
+  const session = await getUserSession(request);
+  const userId = session.get("userId");
+  if (!userId) return null;
+  return userId;
+}
+
+export async function requireUserId(
+  request: Request,
+  redirectTo = new URL(request.url).pathname
+) {
+  const userId = await getUserId(request);
+  if (!userId) {
+    const searchParams = new URLSearchParams([["redirectTo", redirectTo]]);
+    throw redirect(`/login?${searchParams}`);
+  }
+  return userId;
+}
+
 export async function createUserSession(userId: string, redirectTo: string) {
   const session = await storage.getSession();
   session.set("userId", userId);
+
   return redirect(redirectTo, {
     headers: { "Set-Cookie": await storage.commitSession(session) },
   });

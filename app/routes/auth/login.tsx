@@ -1,5 +1,5 @@
 import { json } from "@remix-run/cloudflare";
-import { Form, useActionData } from "@remix-run/react";
+import { Form, useActionData, useSearchParams } from "@remix-run/react";
 import { Link } from "react-router-dom";
 import type { TweetmixActionArgs } from "types";
 import { Button, FloatingLabelInput } from "~/components/Form";
@@ -25,6 +25,7 @@ export async function action({ request, context }: TweetmixActionArgs) {
 
   const username = formData.get("username");
   const password = formData.get("password");
+  const redirectTo = formData.get("redirectTo");
 
   if (typeof username !== "string" || typeof password !== "string") {
     return badRequest({
@@ -53,15 +54,22 @@ export async function action({ request, context }: TweetmixActionArgs) {
     });
   }
 
-  return createUserSession(user.id, "/");
+  return createUserSession(user.id, redirectTo ?? "/");
 }
 
 export default function Login() {
   const actionData = useActionData();
+  const [searchParams] = useSearchParams();
 
   return (
     <Form method="post" className="max-w-lg space-y-8">
       <ThiccTitle>SIgn in to Tweetmix</ThiccTitle>
+
+      <input
+        type="hidden"
+        name="redirectTo"
+        value={searchParams.get("redirectTo") ?? undefined}
+      />
 
       <FloatingLabelInput
         name="username"
