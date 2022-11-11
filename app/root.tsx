@@ -25,8 +25,6 @@ export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 export async function loader({ request, context }: TweetmixLoaderArgs) {
   const user = await getUser(request, context);
 
-  console.log({ user });
-
   return json({
     user,
   });
