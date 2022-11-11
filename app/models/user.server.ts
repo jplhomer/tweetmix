@@ -34,10 +34,7 @@ export class User {
     return this.data.avatarUrl;
   }
 
-  static async find(
-    userId: number,
-    context: TweetmixContext
-  ): Promise<User | null> {
+  static async find(userId: number, context: TweetmixContext): Promise<User> {
     const { results } = await db(context).fetchOne({
       tableName: "users",
       fields: "*",
