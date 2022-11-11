@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react";
-import { type User } from "~/models/user";
+import { type UserData } from "~/models/user";
 import { Gear, Hashtag, Tweetmix } from "./Icons";
 
 export function Layout({
@@ -7,7 +7,7 @@ export function Layout({
   user,
 }: {
   children: React.ReactNode;
-  user?: User | null;
+  user?: UserData | null;
 }) {
   return (
     <div className="flex min-h-screen max-w-7xl px-4 mx-auto">
@@ -91,7 +91,7 @@ function LoggedOutBanner() {
   );
 }
 
-function UserNavLink({ user }: { user: User }) {
+function UserNavLink({ user }: { user: UserData }) {
   return (
     <Link
       className="bottom-2.5 fixed space-x-2 flex py-3 px-5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-900 items-center"

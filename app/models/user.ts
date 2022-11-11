@@ -1,10 +1,9 @@
 import invariant from "tiny-invariant";
 import type { TweetmixContext } from "types";
 import { db } from "~/lib/db.server";
-import { getUserId } from "~/lib/session.server";
 import { unsafeHash } from "~/utils";
 
-export interface User {
+export interface UserData {
   id: number;
   email: string;
   username: string;
@@ -12,32 +11,60 @@ export interface User {
   avatarUrl: string;
 }
 
-export async function getUser(
-  request: Request,
-  context: TweetmixContext
-): Promise<User | null> {
-  const userId = await getUserId(request);
+export class User {
+  constructor(public data: UserData) {}
 
-  if (!userId) return null;
+  get id() {
+    return this.data.id;
+  }
 
-  const { results } = await db(context).fetchOne({
-    tableName: "users",
-    fields: "*",
-    where: {
-      conditions: "id = ?1",
-      params: [userId],
-    },
-  });
+  get email() {
+    return this.data.email;
+  }
 
-  invariant(results, "User not found");
+  get username() {
+    return this.data.username;
+  }
 
-  return {
-    id: results.id as number,
-    email: results.email as string,
-    username: results.username as string,
-    name: results.name as string,
-    avatarUrl:
-      "https://www.gravatar.com/avatar/" +
-      (await unsafeHash((results.email as string).toLowerCase(), "MD5")),
-  };
+  get name() {
+    return this.data.name;
+  }
+
+  get avatarUrl() {
+    return this.data.avatarUrl;
+  }
+
+  static async find(
+    userId: number,
+    context: TweetmixContext
+  ): Promise<User | null> {
+    const { results } = await db(context).fetchOne({
+      tableName: "users",
+      fields: "*",
+      where: {
+        conditions: "id = ?1",
+        params: [userId],
+      },
+    });
+
+    invariant(results, "User not found");
+
+    return new User(await this.serializeResults(results));
+  }
+
+  static async serializeResults(results: any) {
+    return {
+      id: results.id as number,
+      email: results.email as string,
+      username: results.username as string,
+      name: results.name as string,
+      avatarUrl:
+        "https://www.gravatar.com/avatar/" +
+        (await unsafeHash((results.email as string).toLowerCase(), "MD5")),
+    };
+  }
+
+  toJSON() {
+    return this.data;
+  }
 }

@@ -11,7 +11,8 @@ import {
 } from "@remix-run/react";
 import type { TweetmixLoaderArgs } from "types";
 import { Layout } from "./components/Layout";
-import { getUser } from "./models/user";
+import { getUserId } from "./lib/session.server";
+import { User } from "./models/user";
 import styles from "./tailwind.css";
 
 export const meta: MetaFunction = () => ({
@@ -23,7 +24,9 @@ export const meta: MetaFunction = () => ({
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 export async function loader({ request, context }: TweetmixLoaderArgs) {
-  const user = await getUser(request, context);
+  const userId = await getUserId(request);
+
+  const user = userId ? await User.find(userId, context) : null;
 
   return json({
     user,
