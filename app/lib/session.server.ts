@@ -55,7 +55,7 @@ export async function login(
 
 export async function logout(request: Request) {
   const session = await getUserSession(request);
-  return redirect("/login", {
+  return redirect("/auth/login", {
     headers: {
       "Set-Cookie": await storage.destroySession(session),
     },

@@ -15,16 +15,7 @@ type User = {
 export async function loader({ request, context }: TweetmixDataFunctionArgs) {
   const userId = await getUserId(request);
 
-  if (userId) {
-    return redirect("/home");
-  }
-
-  const ps = context.TWEETS_DB.prepare("SELECT * from users");
-  const users = await ps.all<User>();
-
-  invariant(users.results, "No users found");
-
-  return json({ users: users.results });
+  return redirect(userId ? "/home" : "/explore");
 }
 
 /**
