@@ -15,7 +15,7 @@ export function Layout({
         <div className="w-[275px]">
           <div className="h-full fixed top-0">
             <Link
-              className="p-3 ml-2 rounded-full inline-flex hover:bg-blue-50 dark:hover:bg-blue-900"
+              className="p-3 ml-2 rounded-full inline-flex"
               to="/"
               prefetch="intent"
             >
