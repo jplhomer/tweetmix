@@ -11,7 +11,7 @@ import {
 } from "@remix-run/react";
 import type { TweetmixDataFunctionArgs } from "types";
 import { Layout } from "./components/Layout";
-import { getUserId } from "./lib/session.server";
+import { getUserId, logout } from "./lib/session.server";
 import { User } from "./models/user.server";
 import styles from "./tailwind.css";
 
@@ -26,11 +26,15 @@ export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 export async function loader({ request, context }: TweetmixDataFunctionArgs) {
   const userId = await getUserId(request);
 
-  const user = userId ? await User.find(userId, context) : null;
+  try {
+    const user = userId ? await User.find(userId, context) : null;
 
-  return json({
-    user,
-  });
+    return json({
+      user,
+    });
+  } catch (error) {
+    throw await logout(request);
+  }
 }
 
 export default function App() {
