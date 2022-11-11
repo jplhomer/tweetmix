@@ -61,7 +61,7 @@ function LoggedOutBanner() {
       <div className="max-w-7xl mx-auto pl-[275px] flex items-center justify-between">
         <div>
           <h2 className="text-lg font-bold">Don't miss what's happening</h2>
-          <p>People on Twitter are the first to know.</p>
+          <p>People on Tweetmix are the last to know.</p>
         </div>
         <div className="space-x-4">
           <Link

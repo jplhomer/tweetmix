@@ -1,3 +1,5 @@
+import { ValidationError } from "./Text";
+
 type InputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
   "id" | "name" | "type" | "placeholder"
@@ -36,14 +38,21 @@ export function FloatingLabelInput({
           {label}
         </label>
       </div>
-      {error && (
-        <div
-          className="text-red-500 dark:text-red-300 mt-2 text-sm"
-          role="alert"
-        >
-          {error}
-        </div>
-      )}
+      {error && <ValidationError>{error}</ValidationError>}
     </div>
+  );
+}
+
+export function Button({
+  children,
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <button
+      className="block p-4 rounded-full bg-blue-500 text-white font-bold w-full hover:bg-blue-600"
+      {...props}
+    >
+      {children}
+    </button>
   );
 }

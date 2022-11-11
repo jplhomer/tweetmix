@@ -1,8 +1,8 @@
 import { json } from "@remix-run/cloudflare";
 import { Form, useActionData } from "@remix-run/react";
 import type { TweetmixActionArgs } from "types";
-import { FloatingLabelInput } from "~/components/Form";
-import { ThiccTitle } from "~/components/Text";
+import { Button, FloatingLabelInput } from "~/components/Form";
+import { ThiccTitle, ValidationError } from "~/components/Text";
 import { db } from "~/lib/db.server";
 import { createUserSession, register } from "~/lib/session.server";
 
@@ -109,14 +109,10 @@ export default function Signup() {
           error={actionData?.fieldErrors?.password}
         />
         {actionData?.formError && (
-          <div className="text-red-500 dark:text-red-300" role="alert">
-            {actionData.formError}
-          </div>
+          <ValidationError>{actionData.formError}</ValidationError>
         )}
       </div>
-      <button className="block p-4 rounded-full bg-blue-500 text-white font-bold w-full hover:bg-blue-600">
-        Sign Up
-      </button>
+      <Button type="submit">Sign Up</Button>
     </Form>
   );
 }

@@ -28,6 +28,30 @@ export async function register(
   return { id: results[0].id as string, username };
 }
 
+export async function login(
+  context: TweetmixContext,
+  { username, password }: { username: string; password: string }
+) {
+  const { results: user } = await db(context).fetchOne({
+    tableName: "users",
+    fields: "*",
+    where: {
+      conditions: "username = ?1",
+      params: [username],
+    },
+  });
+
+  if (!user) return null;
+
+  const isCorrectPassword = (await unsafeHash(password)) === user.password;
+  if (!isCorrectPassword) return null;
+
+  return {
+    id: user.id as string,
+    username,
+  };
+}
+
 /**
  * Hash some text using Sha-256.
  * NOTE: This is bad; don't do this; use bcrypt instead.
