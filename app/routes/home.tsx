@@ -25,7 +25,7 @@ export default function Home() {
   const { tweets } = useLoaderData<typeof loader>();
 
   return (
-    <div>
+    <div className="relative pt-16">
       <Heading>Latest Tweets</Heading>
       <TweetComposer user={user} />
       <div className="border-t border-gray-300 dark:border-gray-600">

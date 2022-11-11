@@ -6,9 +6,7 @@ export default function Username() {
 
   return (
     <div className="relative pt-16">
-      <div className="fixed top-0">
-        <Heading>@{username}</Heading>
-      </div>
+      <Heading>@{username}</Heading>
       <Outlet />
     </div>
   );

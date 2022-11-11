@@ -21,7 +21,7 @@ export default function TweetDetail() {
   const { tweet } = useLoaderData<typeof loader>();
 
   return (
-    <div>
+    <div className="relative pt-16">
       <Heading>Tweet</Heading>
       <Tweet tweet={tweet} />
     </div>

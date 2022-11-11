@@ -25,5 +25,9 @@ export function Heading({
   as?: string | React.ReactNode;
 }) {
   const Component = as as React.ElementType;
-  return <Component className="text-2xl font-bold p-4">{children}</Component>;
+  return (
+    <Component className="text-2xl font-bold p-4 fixed top-0 bg-white dark:bg-black w-full">
+      {children}
+    </Component>
+  );
 }
