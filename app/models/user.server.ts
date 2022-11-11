@@ -49,6 +49,24 @@ export class User {
     return new User(await this.serializeResults(results));
   }
 
+  static async findByUsername(
+    username: string,
+    context: TweetmixContext
+  ): Promise<User> {
+    const { results } = await db(context).fetchOne({
+      tableName: "users",
+      fields: "*",
+      where: {
+        conditions: "username = ?1",
+        params: [username],
+      },
+    });
+
+    invariant(results, "User not found");
+
+    return new User(await this.serializeResults(results));
+  }
+
   static async serializeResults(results: any) {
     return {
       id: results.id as number,

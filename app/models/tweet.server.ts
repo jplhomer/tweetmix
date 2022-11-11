@@ -30,7 +30,7 @@ export class Tweet extends Model<TweetData> {
     return new Tweet(await this.serializeResults(results));
   }
 
-  static async all(context: TweetmixContext) {
+  static async all(context: TweetmixContext, where = "") {
     const stmt = context.TWEETS_DB.prepare(
       `select
         tweets.*,
@@ -40,6 +40,7 @@ export class Tweet extends Model<TweetData> {
       from tweets
       left join users
       on tweets.user_id = users.id
+      ${where ? `where ${where}` : ""}
       order by tweets.created_at desc`
     );
     const { results } = await stmt.all();
@@ -47,6 +48,10 @@ export class Tweet extends Model<TweetData> {
     invariant(results, "Could not fetch tweets");
 
     return await this.convertResultsToModels(results);
+  }
+
+  static async where(column: string, value: any, context: TweetmixContext) {
+    return this.all(context, `${column} = '${value}'`);
   }
 
   static async find(tweetId: number, context: TweetmixContext): Promise<Tweet> {
