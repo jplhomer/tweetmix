@@ -25,7 +25,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="dark:text-gray-100 dark:bg-black">
         <Layout>
           <Outlet />
         </Layout>
