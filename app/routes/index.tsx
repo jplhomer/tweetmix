@@ -1,7 +1,7 @@
 import { json, redirect } from "@remix-run/cloudflare";
-import { Form, useActionData, useLoaderData } from "@remix-run/react";
+import { useActionData, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import type { CloudflareActionArgs, CloudflareLoaderArgs } from "types";
+import type { TweetmixActionArgs, TweetmixLoaderArgs } from "types";
 import { D1QB } from "workers-qb";
 
 type User = {
@@ -11,7 +11,7 @@ type User = {
   username: string;
 };
 
-export async function loader({ context }: CloudflareLoaderArgs) {
+export async function loader({ context }: TweetmixLoaderArgs) {
   const ps = context.TWEETS_DB.prepare("SELECT * from users");
   const users = await ps.all<User>();
 
@@ -32,7 +32,7 @@ async function hash(input: string) {
   return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-export async function action({ request, context }: CloudflareActionArgs) {
+export async function action({ request, context }: TweetmixActionArgs) {
   const formData = await request.formData();
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;

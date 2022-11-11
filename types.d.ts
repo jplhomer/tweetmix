@@ -1,18 +1,13 @@
-import type { ActionArgs, LoaderArgs } from "@remix-run/cloudflare";
-export interface CloudflareLoaderArgs extends LoaderArgs {
-  context: {
-    TWEETS_DB: D1Database;
-  };
-}
+import type { AppLoadContext, DataFunctionArgs } from "@remix-run/cloudflare";
 
-interface CloudflareContext {
+interface TweetmixContext extends AppLoadContext {
   TWEETS_DB: D1Database;
 }
 
-export interface CloudflareLoaderArgs extends LoaderArgs {
-  context: CloudflareContext;
+export interface TweetmixLoaderArgs extends DataFunctionArgs {
+  context: TweetmixContext;
 }
 
-export interface CloudflareActionArgs extends ActionArgs {
-  context: CloudflareContext;
+export interface TweetmixActionArgs extends DataFunctionArgs {
+  context: TweetmixContext;
 }

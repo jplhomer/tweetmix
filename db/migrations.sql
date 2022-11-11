@@ -1,6 +1,6 @@
 drop table if exists users;
 create table users (
-  id serial primary key,
+  id integer primary key,
   name text,
   email text not null unique,
   username text not null unique,
