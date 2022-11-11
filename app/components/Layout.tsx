@@ -31,7 +31,7 @@ export function Layout({
 }) {
   return (
     <div className="flex min-h-screen max-w-7xl px-4 mx-auto">
-      <header className="flex-grow pt-1 border-r border-gray-300 dark:border-gray-700">
+      <header className="pt-1 border-r border-gray-300 dark:border-gray-700 grow-0">
         <div className="w-[275px]">
           <div className="h-full fixed top-0">
             <Link
@@ -112,7 +112,9 @@ export function Layout({
           </div>
         </div>
       </header>
-      <div className="w-full">{children}</div>
+      <div className="w-full max-w-2xl border-r border-gray-300">
+        {children}
+      </div>
       {!user && <LoggedOutBanner />}
     </div>
   );

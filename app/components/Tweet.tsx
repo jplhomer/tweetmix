@@ -1,3 +1,9 @@
+import {
+  ArrowPathRoundedSquareIcon,
+  ArrowUpTrayIcon,
+  ChatBubbleBottomCenterIcon,
+  HeartIcon,
+} from "@heroicons/react/24/outline";
 import { Link } from "@remix-run/react";
 import type { TweetData } from "~/models/tweet.server";
 import { getRelativeTime } from "~/utils";
@@ -26,6 +32,32 @@ export function Tweet({ tweet }: { tweet: TweetData }) {
           </span>
         </div>
         <div>{tweet.text}</div>
+        <ul className="mt-2 grid grid-cols-4">
+          <li>
+            <button className="hover:bg-blue-200 rounded-full p-2 transition-all group">
+              <ChatBubbleBottomCenterIcon className="h-4 w-4 text-gray-500 group-hover:text-blue-600" />
+              <span className="sr-only">Reply</span>
+            </button>
+          </li>
+          <li>
+            <button className="hover:bg-green-200 rounded-full p-2 transition-all group">
+              <ArrowPathRoundedSquareIcon className="h-4 w-4 text-gray-500 group-hover:text-green-600" />
+              <span className="sr-only">Retweet</span>
+            </button>
+          </li>
+          <li>
+            <button className="hover:bg-pink-200 rounded-full p-2 transition-all group">
+              <HeartIcon className="h-4 w-4 text-gray-500 hover:text-pink-600" />
+              <span className="sr-only">Like</span>
+            </button>
+          </li>
+          <li>
+            <button className="hover:bg-blue-200 rounded-full p-2 transition-all group">
+              <ArrowUpTrayIcon className="h-4 w-4 text-gray-500 group-hover:text-blue-600" />
+              <span className="sr-only">Share</span>
+            </button>
+          </li>
+        </ul>
       </UserAvatar>
     </Link>
   );
