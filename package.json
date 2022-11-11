@@ -11,7 +11,7 @@
     "dev": "touch ./app/tailwind.css && remix build && run-p \"dev:*\"",
     "generate:css": "npx tailwindcss -o ./app/tailwind.css",
     "start": "cross-env NODE_ENV=production npm run dev:wrangler",
-    "db:migrate:fresh": "touch ./.wrangler/state/d1/TWEETS_DB.sqlite3 && sqlite3 ./.wrangler/state/d1/TWEETS_DB.sqlite3 < ./db/migrations.sql"
+    "db:migrate:fresh": "mkdir -p ./.wrangler/state/d1 && touch ./.wrangler/state/d1/TWEETS_DB.sqlite3 && sqlite3 ./.wrangler/state/d1/TWEETS_DB.sqlite3 < ./db/migrations.sql"
   },
   "dependencies": {
     "@remix-run/cloudflare": "^1.7.5",
