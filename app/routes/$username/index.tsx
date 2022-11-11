@@ -2,7 +2,7 @@ import { json } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import type { TweetmixDataFunctionArgs } from "types";
-import { Tweet } from "~/components/Tweet";
+import { TweetTimeline } from "~/components/TweetTimeline";
 import { Tweet as TweetModel } from "~/models/tweet.server";
 import { User } from "~/models/user.server";
 
@@ -21,13 +21,5 @@ export async function loader({ params, context }: TweetmixDataFunctionArgs) {
 export default function UsernameIndex() {
   const { tweets } = useLoaderData<typeof loader>();
 
-  return (
-    <ul>
-      {tweets.map((tweet) => (
-        <li key={tweet.id}>
-          <Tweet tweet={tweet} />
-        </li>
-      ))}
-    </ul>
-  );
+  return <TweetTimeline tweets={tweets} />;
 }

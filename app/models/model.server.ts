@@ -23,7 +23,7 @@ export class Model<TModelData> {
   ) {
     let modelResults: any = {};
     Object.keys(results).forEach((key) => {
-      if (key.startsWith(prefix)) {
+      if (key.startsWith(prefix + "_")) {
         modelResults[key.replace(prefix + "_", "")] = results[key];
         delete results[key];
       }

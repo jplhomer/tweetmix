@@ -2,17 +2,34 @@ import invariant from "tiny-invariant";
 import type { TweetmixContext } from "types";
 import { db } from "~/lib/db.server";
 import { Model } from "./model.server";
+import type { UserData } from "./user.server";
 import { User } from "./user.server";
 
 export interface TweetData {
   id: number;
   userId: number;
   text: string;
-  createdAt: Date;
-  user?: User | null;
+  createdAt: string;
+  user?: UserData | null;
 }
 
 export class Tweet extends Model<TweetData> {
+  get id() {
+    return this.data.id;
+  }
+
+  get user() {
+    return this.data.user;
+  }
+
+  get text() {
+    return this.data.text;
+  }
+
+  get createdAt() {
+    return this.data.createdAt;
+  }
+
   static async create(
     { text, userId }: { text: string; userId: number },
     context: TweetmixContext
@@ -30,7 +47,7 @@ export class Tweet extends Model<TweetData> {
     return new Tweet(await this.serializeResults(results));
   }
 
-  static async all(context: TweetmixContext, where = "") {
+  static async all(context: TweetmixContext, where = ""): Promise<TweetData[]> {
     const stmt = context.TWEETS_DB.prepare(
       `select
         tweets.*,
@@ -47,26 +64,27 @@ export class Tweet extends Model<TweetData> {
 
     invariant(results, "Could not fetch tweets");
 
-    return await this.convertResultsToModels(results);
+    // TODO: Learn TypeScript
+    return (await this.convertResultsToModels(
+      results
+    )) as unknown as TweetData[];
   }
 
-  static async where(column: string, value: any, context: TweetmixContext) {
+  static async where(
+    column: string,
+    value: any,
+    context: TweetmixContext
+  ): Promise<TweetData[]> {
     return this.all(context, `${column} = '${value}'`);
   }
 
-  static async find(tweetId: number, context: TweetmixContext): Promise<Tweet> {
-    const { results } = await db(context).fetchOne({
-      tableName: "tweets",
-      fields: "*",
-      where: {
-        conditions: "id = ?1",
-        params: [tweetId],
-      },
-    });
+  static async find(
+    tweetId: number,
+    context: TweetmixContext
+  ): Promise<TweetData> {
+    const results = await this.where("tweets.id", tweetId, context);
 
-    invariant(results, "Tweet not found");
-
-    return (await this.convertResultsToModels([results]))[0];
+    return results[0];
   }
 
   static async serializeResults(results: any) {
@@ -80,7 +98,7 @@ export class Tweet extends Model<TweetData> {
       id: results.id as number,
       userId: results.user_id as number,
       text: results.text as string,
-      createdAt: new Date(results.created_at),
+      createdAt: results.created_at,
       user,
     };
   }

@@ -2,7 +2,7 @@ import { json, redirect } from "@remix-run/cloudflare";
 import { useLoaderData, useMatches } from "@remix-run/react";
 import type { TweetmixDataFunctionArgs } from "types";
 import { Heading } from "~/components/Text";
-import { Tweet } from "~/components/Tweet";
+import { TweetTimeline } from "~/components/TweetTimeline";
 import { getUserId } from "~/lib/session.server";
 import { Tweet as TweetModel } from "~/models/tweet.server";
 import { TweetComposer } from "./resources/tweets/compose";
@@ -29,11 +29,7 @@ export default function Home() {
       <Heading>Latest Tweets</Heading>
       <TweetComposer user={user} />
       <div className="border-t border-gray-300 dark:border-gray-600">
-        {tweets.map((tweet) => (
-          <div key={tweet.id} className="p-4">
-            <Tweet tweet={tweet} />
-          </div>
-        ))}
+        <TweetTimeline tweets={tweets} />
       </div>
     </div>
   );
