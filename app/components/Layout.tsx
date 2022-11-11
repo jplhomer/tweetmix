@@ -9,6 +9,7 @@ import {
   EnvelopeIcon as SolidEnvelopeIcon,
   HashtagIcon as SolidHashtagIcon,
   UserIcon as SolidUserIcon,
+  HomeIcon as SolidHomeIcon,
 } from "@heroicons/react/24/solid";
 import {
   BellAlertIcon,
@@ -16,6 +17,7 @@ import {
   Cog8ToothIcon,
   EnvelopeIcon,
   HashtagIcon,
+  HomeIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
@@ -39,6 +41,15 @@ export function Layout({
             >
               <Tweetmix className="w-8 h-8 fill-current" />
             </Link>
+            {user && (
+              <NavItem
+                to="/home"
+                icon={<HomeIcon className="w-8 h-8 text-current" />}
+                activeIcon={<SolidHomeIcon className="w-8 h-8 text-current" />}
+              >
+                Home
+              </NavItem>
+            )}
             <NavItem
               to="/explore"
               icon={<HashtagIcon className="w-8 h-8 text-current" />}
