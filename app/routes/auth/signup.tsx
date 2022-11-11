@@ -1,6 +1,6 @@
 import { json } from "@remix-run/cloudflare";
-import { Form, useActionData } from "@remix-run/react";
-import type { TweetmixActionArgs } from "types";
+import { Form, Link, useActionData } from "@remix-run/react";
+import type { TweetmixDataFunctionArgs } from "types";
 import { Button, FloatingLabelInput } from "~/components/Form";
 import { ThiccTitle, ValidationError } from "~/components/Text";
 import { db } from "~/lib/db.server";
@@ -22,7 +22,7 @@ type ActionData = {
 
 const badRequest = (data: ActionData) => json(data, { status: 400 });
 
-export async function action({ request, context }: TweetmixActionArgs) {
+export async function action({ request, context }: TweetmixDataFunctionArgs) {
   const formData = new URLSearchParams(await request.text());
 
   const email = formData.get("email");
@@ -80,7 +80,7 @@ export default function Signup() {
   const actionData = useActionData<ActionData>();
 
   return (
-    <Form method="post" className="max-w-lg space-y-8">
+    <Form method="post" className="max-w-lg space-y-8 p-4">
       <ThiccTitle>Create your account</ThiccTitle>
       <div className="space-y-4">
         <FloatingLabelInput
@@ -112,7 +112,16 @@ export default function Signup() {
           <ValidationError>{actionData.formError}</ValidationError>
         )}
       </div>
-      <Button type="submit">Sign Up</Button>
+      <Button type="submit" block>
+        Sign Up
+      </Button>
+
+      <p className="text-gray-600 dark:text-gray-400 text-sm text-center">
+        Already have an account?{" "}
+        <Link className="text-blue-500" to="/auth/login">
+          Log in
+        </Link>
+      </p>
     </Form>
   );
 }

@@ -16,3 +16,14 @@ export function ValidationError({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
+
+export function Heading({
+  children,
+  as = "h2",
+}: {
+  children: React.ReactNode;
+  as?: string | React.ReactNode;
+}) {
+  const Component = as as React.ElementType;
+  return <Component className="text-2xl font-bold p-4">{children}</Component>;
+}

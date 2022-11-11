@@ -1,4 +1,5 @@
 import { ValidationError } from "./Text";
+import clsx from "clsx";
 
 type InputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -45,11 +46,16 @@ export function FloatingLabelInput({
 
 export function Button({
   children,
+  block,
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+}: { block?: boolean } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button
-      className="block p-4 rounded-full bg-blue-500 text-white font-bold w-full hover:bg-blue-600"
+      className={clsx(
+        "inline-block py-2 px-4 rounded-full bg-blue-500 text-white font-bold hover:bg-blue-600",
+        block && "block w-full",
+        props.className
+      )}
       {...props}
     >
       {children}

@@ -9,7 +9,7 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-import type { TweetmixLoaderArgs } from "types";
+import type { TweetmixDataFunctionArgs } from "types";
 import { Layout } from "./components/Layout";
 import { getUserId } from "./lib/session.server";
 import { User } from "./models/user.server";
@@ -23,7 +23,7 @@ export const meta: MetaFunction = () => ({
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
-export async function loader({ request, context }: TweetmixLoaderArgs) {
+export async function loader({ request, context }: TweetmixDataFunctionArgs) {
   const userId = await getUserId(request);
 
   const user = userId ? await User.find(userId, context) : null;

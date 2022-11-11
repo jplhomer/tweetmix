@@ -1,8 +1,9 @@
 import { json, redirect } from "@remix-run/cloudflare";
 import { useActionData, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import type { TweetmixActionArgs, TweetmixLoaderArgs } from "types";
+import type { TweetmixDataFunctionArgs, TweetmixDataFunctionArgs } from "types";
 import { D1QB } from "workers-qb";
+import { getUserId } from "~/lib/session.server";
 
 type User = {
   id: number;
@@ -11,7 +12,13 @@ type User = {
   username: string;
 };
 
-export async function loader({ context }: TweetmixLoaderArgs) {
+export async function loader({ request, context }: TweetmixDataFunctionArgs) {
+  const userId = await getUserId(request);
+
+  if (userId) {
+    return redirect("/home");
+  }
+
   const ps = context.TWEETS_DB.prepare("SELECT * from users");
   const users = await ps.all<User>();
 
@@ -32,7 +39,7 @@ async function hash(input: string) {
   return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-export async function action({ request, context }: TweetmixActionArgs) {
+export async function action({ request, context }: TweetmixDataFunctionArgs) {
   const formData = await request.formData();
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;

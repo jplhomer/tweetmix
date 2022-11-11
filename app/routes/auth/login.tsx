@@ -1,7 +1,7 @@
 import { json } from "@remix-run/cloudflare";
 import { Form, useActionData, useSearchParams } from "@remix-run/react";
 import { Link } from "react-router-dom";
-import type { TweetmixActionArgs } from "types";
+import type { TweetmixDataFunctionArgs } from "types";
 import { Button, FloatingLabelInput } from "~/components/Form";
 import { ThiccTitle, ValidationError } from "~/components/Text";
 import { createUserSession, login } from "~/lib/session.server";
@@ -20,7 +20,7 @@ type ActionData = {
 
 const badRequest = (data: ActionData) => json(data, { status: 400 });
 
-export async function action({ request, context }: TweetmixActionArgs) {
+export async function action({ request, context }: TweetmixDataFunctionArgs) {
   const formData = new URLSearchParams(await request.text());
 
   const username = formData.get("username");
@@ -62,8 +62,8 @@ export default function Login() {
   const [searchParams] = useSearchParams();
 
   return (
-    <Form method="post" className="max-w-lg space-y-8">
-      <ThiccTitle>SIgn in to Tweetmix</ThiccTitle>
+    <Form method="post" className="max-w-lg space-y-8 p-4">
+      <ThiccTitle>Sign in to Tweetmix</ThiccTitle>
 
       <input
         type="hidden"
@@ -90,9 +90,11 @@ export default function Login() {
         <ValidationError>{actionData.formError}</ValidationError>
       )}
 
-      <Button type="submit">Log in</Button>
+      <Button type="submit" block>
+        Log in
+      </Button>
 
-      <p className="text-gray-600 dark:text-gray-400 text-sm">
+      <p className="text-gray-600 dark:text-gray-400 text-sm text-center">
         Don't have an account?{" "}
         <Link className="text-blue-500" to="/auth/signup">
           Sign up

@@ -11,7 +11,7 @@ export function Layout({
 }) {
   return (
     <div className="flex min-h-screen max-w-7xl px-4 mx-auto">
-      <header className="flex-grow pt-1">
+      <header className="flex-grow pt-1 border-r border-gray-300 dark:border-gray-700">
         <div className="w-[275px]">
           <div className="h-full fixed top-0">
             <Link
@@ -37,7 +37,7 @@ export function Layout({
           </div>
         </div>
       </header>
-      <div className="w-full p-4">{children}</div>
+      <div className="w-full">{children}</div>
       {!user && <LoggedOutBanner />}
     </div>
   );
@@ -66,7 +66,7 @@ function NavItem({
 
 function LoggedOutBanner() {
   return (
-    <div className="fixed bottom-0 left-0 w-full bg-blue-500 p-4">
+    <div className="fixed bottom-0 left-0 w-full bg-blue-500 p-4 text-white">
       <div className="max-w-7xl mx-auto lg:pl-[275px] flex items-center justify-between">
         <div>
           <h2 className="text-lg font-bold">Don't miss what's happening</h2>
