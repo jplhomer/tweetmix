@@ -1,9 +1,9 @@
 import { Heading } from "~/components/Text";
 
-export default function Explore() {
+export default function Messages() {
   return (
     <div className="relative pt-16">
-      <Heading>Explore</Heading>
+      <Heading>Messages</Heading>
     </div>
   );
 }

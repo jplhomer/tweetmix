@@ -14,6 +14,7 @@
     "db:migrate:fresh": "mkdir -p ./.wrangler/state/d1 && touch ./.wrangler/state/d1/TWEETS_DB.sqlite3 && sqlite3 ./.wrangler/state/d1/TWEETS_DB.sqlite3 < ./db/migrations.sql"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.13",
     "@remix-run/cloudflare": "^1.7.5",
     "@remix-run/cloudflare-pages": "^1.7.5",
     "@remix-run/react": "^1.7.5",

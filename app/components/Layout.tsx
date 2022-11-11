@@ -1,7 +1,24 @@
-import { Link } from "@remix-run/react";
+import { Link, NavLink } from "@remix-run/react";
 import { type UserData } from "~/models/user.server";
-import { Gear, Hashtag, Tweetmix } from "./Icons";
+import { Tweetmix } from "./Icons";
 import { UserAvatar } from "./UserAvatar";
+import {
+  BellAlertIcon as SolidBellAlertIcon,
+  BookmarkIcon as SolidBookmarkIcon,
+  Cog8ToothIcon as SolidCog8ToothIcon,
+  EnvelopeIcon as SolidEnvelopeIcon,
+  HashtagIcon as SolidHashtagIcon,
+  UserIcon as SolidUserIcon,
+} from "@heroicons/react/24/solid";
+import {
+  BellAlertIcon,
+  BookmarkIcon,
+  Cog8ToothIcon,
+  EnvelopeIcon,
+  HashtagIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
+import clsx from "clsx";
 
 export function Layout({
   children,
@@ -24,16 +41,62 @@ export function Layout({
             </Link>
             <NavItem
               to="/explore"
-              icon={<Hashtag className="w-8 h-8 fill-current" />}
+              icon={<HashtagIcon className="w-8 h-8 text-current" />}
+              activeIcon={<SolidHashtagIcon className="w-8 h-8 text-current" />}
             >
               Explore
             </NavItem>
-            <NavItem
-              to="/settings"
-              icon={<Gear className="w-8 h-8 fill-current" />}
-            >
-              Settings
-            </NavItem>
+            {user && (
+              <>
+                <NavItem
+                  to="/notifications"
+                  icon={<BellAlertIcon className="w-8 h-8 text-current" />}
+                  activeIcon={
+                    <SolidBellAlertIcon className="w-8 h-8 text-current" />
+                  }
+                >
+                  Notifications
+                </NavItem>
+                <NavItem
+                  to="/messages"
+                  icon={<EnvelopeIcon className="w-8 h-8 text-current" />}
+                  activeIcon={
+                    <SolidEnvelopeIcon className="w-8 h-8 text-current" />
+                  }
+                >
+                  Messages
+                </NavItem>
+                <NavItem
+                  to="/bookmarks"
+                  icon={<BookmarkIcon className="w-8 h-8 text-current" />}
+                  activeIcon={
+                    <SolidBookmarkIcon className="w-8 h-8 text-current" />
+                  }
+                >
+                  Bookmarks
+                </NavItem>
+                <NavItem
+                  to={"/" + user.username}
+                  icon={<UserIcon className="w-8 h-8 text-current" />}
+                  activeIcon={
+                    <SolidUserIcon className="w-8 h-8 text-current" />
+                  }
+                >
+                  Profile
+                </NavItem>
+              </>
+            )}
+            {!user && (
+              <NavItem
+                to="/settings"
+                icon={<Cog8ToothIcon className="w-8 h-8 text-current" />}
+                activeIcon={
+                  <SolidCog8ToothIcon className="w-8 h-8 text-current" />
+                }
+              >
+                Settings
+              </NavItem>
+            )}
             {user && <UserNavLink user={user} />}
           </div>
         </div>
@@ -46,22 +109,28 @@ export function Layout({
 
 function NavItem({
   icon,
+  activeIcon,
   to,
   children,
 }: {
   icon: React.ReactNode;
+  activeIcon: React.ReactNode;
   to: string;
   children: React.ReactNode;
 }) {
   return (
-    <Link
+    <NavLink
       to={to}
       className="flex space-x-8 text-xl py-3 px-5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-900 items-center"
       prefetch="intent"
     >
-      {icon}
-      <span>{children}</span>
-    </Link>
+      {({ isActive }) => (
+        <>
+          {isActive ? activeIcon : icon}
+          <span className={clsx(isActive && "font-bold")}>{children}</span>
+        </>
+      )}
+    </NavLink>
   );
 }
 
