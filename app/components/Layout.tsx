@@ -100,7 +100,7 @@ function UserNavLink({ user }: { user: User }) {
     >
       <img
         src={user.avatarUrl}
-        className="w-8 h-8 rounded-full"
+        className="w-10 h-10 rounded-full"
         alt={`${user.username}'s avatar`}
       />
       <span className="text-gray-600 dark:text-gray-400">@{user.username}</span>
