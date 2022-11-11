@@ -5,9 +5,11 @@ export default function Username() {
   const { username } = useParams();
 
   return (
-    <>
-      <Heading>@{username}</Heading>
+    <div className="relative pt-16">
+      <div className="fixed top-0">
+        <Heading>@{username}</Heading>
+      </div>
       <Outlet />
-    </>
+    </div>
   );
 }
