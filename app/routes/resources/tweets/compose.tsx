@@ -5,6 +5,7 @@ import {
   useLocation,
   useTransition,
 } from "@remix-run/react";
+import type { KeyboardEvent } from "react";
 import { createRef, useEffect } from "react";
 import type { TweetmixDataFunctionArgs } from "types";
 import { Button } from "~/components/Form";
@@ -65,6 +66,12 @@ export function TweetComposer({ user }: { user: UserData }) {
     transition.submission.formData.get("_action") === "composeTweet";
   const formRef = createRef<HTMLFormElement>();
 
+  const submitOnCmdEnter = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter" && event.metaKey) {
+      formRef.current?.submit();
+    }
+  };
+
   useEffect(() => {
     if (!isAdding) {
       formRef?.current?.reset();
@@ -94,6 +101,7 @@ export function TweetComposer({ user }: { user: UserData }) {
           name="text"
           placeholder="What's happening?"
           defaultValue={actionData?.fields?.text}
+          onKeyDown={submitOnCmdEnter}
         />
         {actionData?.fieldErrors?.text && (
           <ValidationError>{actionData.fieldErrors.text}</ValidationError>
