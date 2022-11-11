@@ -12,7 +12,7 @@ import {
 import type { TweetmixLoaderArgs } from "types";
 import { Layout } from "./components/Layout";
 import { getUserId } from "./lib/session.server";
-import { User } from "./models/user";
+import { User } from "./models/user.server";
 import styles from "./tailwind.css";
 
 export const meta: MetaFunction = () => ({

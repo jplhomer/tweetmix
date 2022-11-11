@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react";
-import { type UserData } from "~/models/user";
+import { type UserData } from "~/models/user.server";
 import { Gear, Hashtag, Tweetmix } from "./Icons";
 
 export function Layout({
