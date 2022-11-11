@@ -45,7 +45,7 @@ function NavItem({
   return (
     <Link
       to={to}
-      className="flex space-x-8 text-xl py-3 px-5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600"
+      className="flex space-x-8 text-xl py-3 px-5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 items-center"
       prefetch="intent"
     >
       {icon}
