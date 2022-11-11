@@ -1,6 +1,7 @@
 import { Link } from "@remix-run/react";
 import { type UserData } from "~/models/user.server";
 import { Gear, Hashtag, Tweetmix } from "./Icons";
+import { UserAvatar } from "./UserAvatar";
 
 export function Layout({
   children,
@@ -94,16 +95,15 @@ function LoggedOutBanner() {
 function UserNavLink({ user }: { user: UserData }) {
   return (
     <Link
-      className="bottom-2.5 fixed space-x-2 flex py-3 px-5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-900 items-center"
+      className="bottom-2.5 fixed py-3 px-5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-900"
       to={`/${user.username}`}
       prefetch="intent"
     >
-      <img
-        src={user.avatarUrl}
-        className="w-10 h-10 rounded-full"
-        alt={`${user.username}'s avatar`}
-      />
-      <span className="text-gray-600 dark:text-gray-400">@{user.username}</span>
+      <UserAvatar user={user}>
+        <span className="text-gray-600 dark:text-gray-400">
+          @{user.username}
+        </span>
+      </UserAvatar>
     </Link>
   );
 }

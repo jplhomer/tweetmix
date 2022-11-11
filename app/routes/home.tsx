@@ -2,8 +2,9 @@ import { json, redirect } from "@remix-run/cloudflare";
 import { useLoaderData, useMatches } from "@remix-run/react";
 import type { TweetmixDataFunctionArgs } from "types";
 import { Heading } from "~/components/Text";
+import { Tweet } from "~/components/Tweet";
 import { getUserId } from "~/lib/session.server";
-import { Tweet } from "~/models/tweet.server";
+import { Tweet as TweetModel } from "~/models/tweet.server";
 import { TweetComposer } from "./resources/tweets/compose";
 
 export async function loader({ request, context }: TweetmixDataFunctionArgs) {
@@ -14,7 +15,7 @@ export async function loader({ request, context }: TweetmixDataFunctionArgs) {
   }
 
   return json({
-    tweets: await Tweet.all(context),
+    tweets: await TweetModel.all(context),
   });
 }
 
@@ -30,7 +31,7 @@ export default function Home() {
       <div className="border-t border-gray-300 dark:border-gray-600">
         {tweets.map((tweet) => (
           <div key={tweet.id} className="p-4">
-            <div className="flex items-center space-x-4">{tweet.text}</div>
+            <Tweet tweet={tweet} />
           </div>
         ))}
       </div>

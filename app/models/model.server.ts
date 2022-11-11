@@ -13,6 +13,27 @@ export class Model<TModelData> {
     );
   }
 
+  /**
+   * Convert relations in joined results to nested models.
+   */
+  static async convertRelationsToModels<T>(
+    results: any,
+    model: any,
+    prefix: string
+  ) {
+    let modelResults: any = {};
+    Object.keys(results).forEach((key) => {
+      if (key.startsWith(prefix)) {
+        modelResults[key.replace(prefix + "_", "")] = results[key];
+        delete results[key];
+      }
+    });
+
+    return modelResults.id
+      ? (new model(await model.serializeResults(modelResults)) as T)
+      : null;
+  }
+
   toJSON() {
     return this.data;
   }
