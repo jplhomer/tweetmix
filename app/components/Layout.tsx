@@ -29,6 +29,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <div className="h-full fixed top-0"></div>
       </header>
       <div className="w-full p-4">{children}</div>
+      <LoggedOutBanner />
     </div>
   );
 }
@@ -51,5 +52,32 @@ function NavItem({
       {icon}
       <span>{children}</span>
     </Link>
+  );
+}
+
+function LoggedOutBanner() {
+  return (
+    <div className="fixed bottom-0 left-0 w-full bg-blue-500 p-4">
+      <div className="max-w-7xl mx-auto pl-[275px] flex items-center justify-between">
+        <div>
+          <h2 className="text-lg font-bold">Don't miss what's happening</h2>
+          <p>People on Twitter are the first to know.</p>
+        </div>
+        <div className="space-x-4">
+          <Link
+            to="/auth/login"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full border border-white"
+          >
+            Log In
+          </Link>
+          <Link
+            to="/auth/signup"
+            className="bg-white hover:bg-gray-100 text-gray-900 font-bold py-2 px-4 rounded-full border border-white"
+          >
+            Sign up
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }
