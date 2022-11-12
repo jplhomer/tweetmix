@@ -22,7 +22,7 @@ create table tweets (
   foreign key (user_id) references users(id)
 );
 
-drop table if exists user_likes;
+drop table if exists tweet_likes;
 create table tweet_likes (
   id integer primary key,
   user_id integer not null,
