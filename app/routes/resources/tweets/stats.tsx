@@ -4,7 +4,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { HeartIcon as SolidHeartIcon } from "@heroicons/react/24/solid";
 import { json, redirect } from "@remix-run/cloudflare";
-import { Form, useLocation } from "@remix-run/react";
+import { useFetcher, useLocation } from "@remix-run/react";
 import clsx from "clsx";
 import type { TweetmixDataFunctionArgs } from "types";
 import { requireUserId } from "~/lib/session.server";
@@ -113,8 +113,14 @@ export function ReplyButton({ tweet }: { tweet: TweetData }) {
 export function LikeButton({ tweet }: { tweet: TweetData }) {
   const location = useLocation();
 
+  /**
+   * We `useFetcher` here instead of the `<Form>` import because we don't want
+   * the URL to be updated before the `redirect` happens.
+   */
+  const fetcher = useFetcher();
+
   return (
-    <Form replace action="/resources/tweets/stats" method="put">
+    <fetcher.Form replace action="/resources/tweets/stats" method="put">
       <input
         type="hidden"
         name="intent"
@@ -148,6 +154,6 @@ export function LikeButton({ tweet }: { tweet: TweetData }) {
         )}
         <span className="sr-only">Like</span>
       </button>
-    </Form>
+    </fetcher.Form>
   );
 }

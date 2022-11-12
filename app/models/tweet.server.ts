@@ -98,9 +98,10 @@ export class Tweet extends Model<TweetData> {
 
   static async find(
     tweetId: number,
-    context: TweetmixContext
+    context: TweetmixContext,
+    userId?: number
   ): Promise<TweetData> {
-    const results = await this.where("tweets.id", tweetId, context);
+    const results = await this.where("tweets.id", tweetId, context, userId);
 
     return results[0];
   }

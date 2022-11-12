@@ -1,4 +1,5 @@
 import { json, redirect } from "@remix-run/cloudflare";
+import type { ShouldReloadFunction } from "@remix-run/react";
 import { useLoaderData, useMatches } from "@remix-run/react";
 import type { TweetmixDataFunctionArgs } from "types";
 import { Heading } from "~/components/Text";
@@ -6,6 +7,18 @@ import { TweetTimeline } from "~/components/TweetTimeline";
 import { getUserId } from "~/lib/session.server";
 import { Tweet as TweetModel } from "~/models/tweet.server";
 import { TweetComposer } from "./resources/tweets/compose";
+
+/**
+ * When Remix actions run, loaders are re-validated with new results.
+ * However, this would create a poor experience for users engaging with a tweet,
+ * because it would shift the tweet timeline as latest tweets are rendered.
+ * Instead, we will tell Remix *not* to re-validate this loader unless
+ * we explicitly want it to.
+ */
+export const unstable_shouldReload: ShouldReloadFunction = () => {
+  // TODO: Implement a "should reload" param or action.
+  return false;
+};
 
 export async function loader({ request, context }: TweetmixDataFunctionArgs) {
   const userId = await getUserId(request);
