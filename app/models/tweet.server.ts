@@ -71,7 +71,7 @@ export class Tweet extends Model<TweetData> {
     context: TweetmixContext,
     where = "",
     userId?: number
-  ): Promise<TweetData[]> {
+  ): Promise<Tweet[]> {
     const bindValues = userId ? [userId] : [];
     const { results } = await context.TWEETS_DB.prepare(
       `select
@@ -98,9 +98,7 @@ export class Tweet extends Model<TweetData> {
     invariant(results, "Could not fetch tweets");
 
     // TODO: Learn TypeScript
-    return (await this.convertResultsToModels(
-      results
-    )) as unknown as TweetData[];
+    return (await this.convertResultsToModels(results)) as unknown as Tweet[];
   }
 
   static async where(
@@ -108,7 +106,7 @@ export class Tweet extends Model<TweetData> {
     value: any,
     context: TweetmixContext,
     userId?: number
-  ): Promise<TweetData[]> {
+  ): Promise<Tweet[]> {
     return this.all(context, `${column} = '${value}'`, userId);
   }
 
@@ -116,7 +114,7 @@ export class Tweet extends Model<TweetData> {
     tweetId: number,
     context: TweetmixContext,
     userId?: number
-  ): Promise<TweetData> {
+  ): Promise<Tweet> {
     const results = await this.where("tweets.id", tweetId, context, userId);
 
     return results[0];
