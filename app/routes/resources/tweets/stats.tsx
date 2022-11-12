@@ -8,7 +8,7 @@ import { useFetcher, useLocation } from "@remix-run/react";
 import clsx from "clsx";
 import type { TweetmixDataFunctionArgs } from "types";
 import { requireUserId } from "~/lib/session.server";
-import { type TweetData } from "~/models/tweet.server";
+import { Tweet, type TweetData } from "~/models/tweet.server";
 
 const enum LikeActions {
   Like = "like",
@@ -52,6 +52,12 @@ export async function action({ request, context }: TweetmixDataFunctionArgs) {
 
   switch (intent) {
     case LikeActions.Like:
+      // If the user already liked the tweet, do nothing.
+      const tweet = await Tweet.find(Number(tweetId), context);
+      if (await tweet.userHasLiked(userId, context)) {
+        return redirect(redirectTo);
+      }
+
       // Update likes
       await context.TWEETS_DB.prepare(
         `

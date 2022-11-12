@@ -34,6 +34,22 @@ export class Tweet extends Model<TweetData> {
     return this.data.createdAt;
   }
 
+  async userHasLiked(
+    userId: number,
+    context: TweetmixContext
+  ): Promise<boolean> {
+    const { results } = await db(context).fetchOne({
+      tableName: "tweet_likes",
+      fields: "count(*) as count",
+      where: {
+        conditions: "tweet_id = ?1 and user_id = ?2",
+        params: [this.id, userId],
+      },
+    });
+
+    return results!.count === 1;
+  }
+
   static async create(
     { text, userId }: { text: string; userId: number },
     context: TweetmixContext
