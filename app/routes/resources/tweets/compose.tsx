@@ -97,7 +97,7 @@ export function TweetComposer({ user }: { user: UserData }) {
         <input type="hidden" name="redirectTo" value={location.pathname} />
         <input type="hidden" name="_action" value="composeTweet" />
         <textarea
-          className="block w-full border-b border-gray-300 dark:border-gray-600 p-2 text-lg mb-2"
+          className="block w-full border-b border-gray-300 dark:border-gray-600 p-2 text-lg mb-2 dark:bg-black focus:outline-none"
           name="text"
           placeholder="What's happening?"
           defaultValue={actionData?.fields?.text}

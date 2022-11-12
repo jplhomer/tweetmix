@@ -112,7 +112,7 @@ export function Layout({
           </div>
         </div>
       </header>
-      <div className="w-full max-w-2xl border-r border-gray-300">
+      <div className="w-full max-w-2xl border-r border-gray-300 dark:border-gray-700">
         {children}
       </div>
       {!user && <LoggedOutBanner />}

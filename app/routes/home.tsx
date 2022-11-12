@@ -15,7 +15,7 @@ export async function loader({ request, context }: TweetmixDataFunctionArgs) {
   }
 
   return json({
-    tweets: await TweetModel.all(context),
+    tweets: await TweetModel.all(context, "", userId),
   });
 }
 
