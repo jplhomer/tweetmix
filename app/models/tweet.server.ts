@@ -34,6 +34,51 @@ export class Tweet extends Model<TweetData> {
     return this.data.createdAt;
   }
 
+  async like(userId: number, context: TweetmixContext) {
+    await context.TWEETS_DB.prepare(
+      `
+      insert into tweet_likes (tweet_id, user_id)
+      values (?1, ?2)
+    `
+    )
+      .bind(this.id, userId)
+      .run();
+  }
+
+  async unlike(userId: number, context: TweetmixContext) {
+    await context.TWEETS_DB.prepare(
+      `delete from tweet_likes where tweet_id = ?1 and user_id = ?2`
+    )
+      .bind(this.id, userId)
+      .run();
+  }
+
+  async totalLikes(context: TweetmixContext) {
+    const total = await context.TWEETS_DB.prepare(
+      `
+      select count(*) as total_likes
+      from tweet_likes
+      where tweet_id = ?1
+    `
+    )
+      .bind(this.id)
+      .first("total_likes");
+
+    return Number(total);
+  }
+
+  async updateTotalLikes(totalLikes: number, context: TweetmixContext) {
+    await context.TWEETS_DB.prepare(
+      `
+      update tweets
+      set number_likes = ?1
+      where id = ?2
+    `
+    )
+      .bind(totalLikes, this.id)
+      .run();
+  }
+
   async userHasLiked(
     userId: number,
     context: TweetmixContext
