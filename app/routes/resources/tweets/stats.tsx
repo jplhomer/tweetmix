@@ -70,6 +70,8 @@ export async function action({ request, context }: TweetmixDataFunctionArgs) {
   // Get new total likes for tweetId
   const totalLikes = await tweet.totalLikes(context);
 
+  // await context.QUEUE.send({ hello: "world" });
+
   // Update the tweet with the number_likes
   await tweet.updateTotalLikes(totalLikes, context);
 
