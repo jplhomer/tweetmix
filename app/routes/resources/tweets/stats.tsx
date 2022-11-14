@@ -70,10 +70,13 @@ export async function action({ request, context }: TweetmixDataFunctionArgs) {
   // Get new total likes for tweetId
   const totalLikes = await tweet.totalLikes(context);
 
+  // TODO: Update the static tweet count in a queue rather than inline:
   // await context.QUEUE.send({ hello: "world" });
 
   // Update the tweet with the number_likes
   await tweet.updateTotalLikes(totalLikes, context);
+
+  // TODO: Send notifications to the user when a tweet is liked in a queue
 
   return json({ totalLikes, hasLiked: intent === LikeActions.Like });
 }
